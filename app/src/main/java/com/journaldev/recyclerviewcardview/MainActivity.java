@@ -1,6 +1,7 @@
 package com.journaldev.recyclerviewcardview;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,10 +25,14 @@ public class MainActivity extends AppCompatActivity {
     static View.OnClickListener myOnClickListener;
     private static ArrayList<Integer> removedItems;
 
+    private TextView helloString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        helloString = (TextView) findViewById(R.id.myTxt);
 
         myOnClickListener = new MyOnClickListener(this);
 
@@ -52,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new CustomAdapter(data);
         recyclerView.setAdapter(adapter);
+
+        MyAsyncCall myAsyncCall = new MyAsyncCall();
+        myAsyncCall.execute("a", "b");
+
     }
 
 
@@ -119,4 +128,47 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyItemInserted(addItemAtListPosition);
         removedItems.remove(0);
     }
+
+
+    class MyAsyncCall extends AsyncTask <String, Void, Void> {
+
+        private String first, second;
+
+        @Override
+        protected void onPreExecute() {
+
+           // Toast.makeText(getApplicationContext(), "pre execute", Toast.LENGTH_SHORT).show();
+
+            helloString.setText("var in pre: "+first+", "+second);
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            // Toast.makeText(getApplicationContext(), "params are: "+first+", "+second, Toast.LENGTH_SHORT).show();
+
+            helloString.setText("var in post: "+first+", "+second);
+
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            try{
+                Thread.sleep(5000);
+            }catch (Exception e){}
+
+
+
+            first = params[0];
+            second = params[1];
+
+
+            return null;
+        }
+    }
+
 }
