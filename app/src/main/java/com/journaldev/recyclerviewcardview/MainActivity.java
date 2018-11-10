@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -107,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.add_item) {
-           //check if any items to add
+            //check if any items to add
             if (removedItems.size() != 0) {
                 addRemovedItemToList();
             } else {
@@ -130,16 +135,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class MyAsyncCall extends AsyncTask <String, Void, Void> {
+    class MyAsyncCall extends AsyncTask<String, Void, Void> {
 
         private String first, second;
 
         @Override
         protected void onPreExecute() {
 
-           // Toast.makeText(getApplicationContext(), "pre execute", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(), "pre execute", Toast.LENGTH_SHORT).show();
 
-            helloString.setText("var in pre: "+first+", "+second);
+            helloString.setText("var in pre: " + first + ", " + second);
 
             super.onPreExecute();
         }
@@ -149,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Toast.makeText(getApplicationContext(), "params are: "+first+", "+second, Toast.LENGTH_SHORT).show();
 
-            helloString.setText("var in post: "+first+", "+second);
+            helloString.setText("var in post: " + first + ", " + second);
 
             super.onPostExecute(aVoid);
         }
@@ -157,10 +162,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... params) {
 
-            try{
-                Thread.sleep(5000);
-            }catch (Exception e){}
+            try {
 
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url("http://www.google.com")
+                        .build();
+
+                Response response = client.newCall(request).execute();
+                response.body().string();
+
+
+                Thread.sleep(5000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
             first = params[0];
