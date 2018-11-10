@@ -1,6 +1,7 @@
 package com.journaldev.recyclerviewcardview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button myBtn = (Button) findViewById(R.id.myBtn);
+        myBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
+
+                String variableString = "1";
+                boolean myBool = true;
+
+                intent.putExtra("myvar", variableString);
+                intent.putExtra("mybool", myBool);
+
+                startActivity(intent);
+            }
+        });
+
 
         helloString = (TextView) findViewById(R.id.myTxt);
 
@@ -99,6 +118,36 @@ public class MainActivity extends AppCompatActivity {
             data.remove(selectedItemPosition);
             adapter.notifyItemRemoved(selectedItemPosition);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.d("FIRST_ACTIVITY", "on stop");
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d("FIRST_ACTIVITY", "onDestroy");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d("FIRST_ACTIVITY", "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d("FIRST_ACTIVITY", "onPause");
     }
 
     @Override
