@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addRemovedItemToList() {
-        int addItemAtListPosition = 3;
+        int addItemAtListPosition = data.size();
         data.add(addItemAtListPosition, new DataModel(
                 MyData.nameArray[removedItems.get(0)],
                 MyData.versionArray[removedItems.get(0)],
