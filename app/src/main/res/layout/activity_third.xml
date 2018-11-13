@@ -11,13 +11,14 @@
     android:background="@color/grey_300"
     >
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
-        android:id="@+id/myTxt_second"
-        android:text="This is the second activity"
+        android:id="@+id/myTxt_third"
+        android:text="This is the third activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
-
-
-
+    </ScrollView>
 </LinearLayout>

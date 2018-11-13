@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static ArrayList<Integer> removedItems;
 
     private TextView helloString;
+    private String response_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,19 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("mybool", myBool);
 
                 startActivity(intent);
+            }
+        });
+
+        Button remoteBtn = (Button) findViewById(R.id.remote_btn);
+        remoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent third_activity_intent = new Intent(getApplicationContext(), ThirdActivity.class);
+
+                third_activity_intent.putExtra("response_text", response_text);
+
+                startActivity(third_activity_intent);
+
             }
         });
 
@@ -215,17 +229,21 @@ public class MainActivity extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
 
-                Request request = new Request.Builder()
-                        .url("http://www.google.com")
-                        .build();
+                Request.Builder builder = new Request.Builder();
+                Request request = builder.url("http://www.google.com").build();
 
                 Response response = client.newCall(request).execute();
-                response.body().string();
+                if (response.isSuccessful()){
+                    response_text = "Connected to GOOGLE!" + "\n" + "This is body response of google" + "\n" + "\n" + response.body().string();
+                } else {
+                    response_text = "Not Success - code : " + response.code();
+                }
 
 
                 Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();
+                response_text = "Error - " + e.getMessage();
             }
 
 
