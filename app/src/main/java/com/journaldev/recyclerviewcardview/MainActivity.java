@@ -45,16 +45,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
 
-                String variableString = "1";
+                String variableString = "This is a passed String variable";
                 boolean myBool = true;
 
-                intent.putExtra("myvar", variableString);
-                intent.putExtra("mybool", myBool);
+                intent.putExtra("myVar", variableString);
+                intent.putExtra("myBool", myBool);
 
                 startActivity(intent);
             }
         });
 
+        Button myOtherBtn = (Button) findViewById(R.id.myOtherBtn);
+        myOtherBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
+
+                startActivity(intent);
+            }
+        });
 
         helloString = (TextView) findViewById(R.id.myTxt);
 
@@ -172,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addRemovedItemToList() {
-        int addItemAtListPosition = 3;
+        int addItemAtListPosition = data.size();
         data.add(addItemAtListPosition, new DataModel(
                 MyData.nameArray[removedItems.get(0)],
                 MyData.versionArray[removedItems.get(0)],
@@ -231,7 +240,6 @@ public class MainActivity extends AppCompatActivity {
 
             first = params[0];
             second = params[1];
-
 
             return null;
         }
